@@ -1,6 +1,6 @@
 const http = require("http");
 
-function createApp() {
+function createApp({ message = process.env.APP_MESSAGE || "Hello from Jenkins!" } = {}) {
   return http.createServer((request, response) => {
     if (request.url === "/health") {
       response.writeHead(200, { "Content-Type": "application/json" });
@@ -9,7 +9,7 @@ function createApp() {
     }
 
     response.writeHead(200, { "Content-Type": "text/plain" });
-    response.end("Hello from Jenkins!");
+    response.end(message);
   });
 }
 
