@@ -43,9 +43,9 @@ pipeline {
             @echo off
             powershell -NoProfile -ExecutionPolicy Bypass -Command "$tokenPath = Join-Path $env:TEMP ('jenkins-dockerhub-' + $env:BUILD_NUMBER + '.txt'); [System.IO.File]::WriteAllText($tokenPath, $env:DOCKERHUB_TOKEN, [System.Text.Encoding]::ASCII)"
             if errorlevel 1 exit /b 1
-            docker login --username "%DOCKERHUB_USER%" --password-stdin < "%TEMP%\jenkins-dockerhub-%BUILD_NUMBER%.txt"
+            docker login --username "%DOCKERHUB_USER%" --password-stdin < "%TEMP%\\jenkins-dockerhub-%BUILD_NUMBER%.txt"
             set "LOGIN_RESULT=%ERRORLEVEL%"
-            del /f /q "%TEMP%\jenkins-dockerhub-%BUILD_NUMBER%.txt"
+            del /f /q "%TEMP%\\jenkins-dockerhub-%BUILD_NUMBER%.txt"
             if errorlevel 1 exit /b 1
             if not "%LOGIN_RESULT%"=="0" exit /b %LOGIN_RESULT%
             echo Docker Hub login succeeded.
