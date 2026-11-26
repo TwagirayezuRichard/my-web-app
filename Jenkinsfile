@@ -39,16 +39,16 @@ pipeline {
           usernameVariable: "DOCKERHUB_USER",
           passwordVariable: "DOCKERHUB_TOKEN"
         )]) {
-          bat """
+          bat '''
             @echo off
-            echo %DOCKERHUB_TOKEN%| docker login --username "%DOCKERHUB_USER%" --password-stdin
+            powershell -NoProfile -ExecutionPolicy Bypass -Command "$env:DOCKERHUB_TOKEN | docker login --username $env:DOCKERHUB_USER --password-stdin"
             if errorlevel 1 exit /b 1
             docker tag %IMAGE_NAME%:%BUILD_NUMBER% %DOCKERHUB_USER%/%IMAGE_NAME%:%BUILD_NUMBER%
             if errorlevel 1 exit /b 1
             docker push %DOCKERHUB_USER%/%IMAGE_NAME%:%BUILD_NUMBER%
             if errorlevel 1 exit /b 1
             docker logout
-          """
+          '''
         }
       }
     }
