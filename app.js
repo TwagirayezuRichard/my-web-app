@@ -1,0 +1,23 @@
+const http = require("http");
+
+function createApp() {
+  return http.createServer((request, response) => {
+    if (request.url === "/health") {
+      response.writeHead(200, { "Content-Type": "application/json" });
+      response.end(JSON.stringify({ status: "ok" }));
+      return;
+    }
+
+    response.writeHead(200, { "Content-Type": "text/plain" });
+    response.end("Hello from Jenkins!");
+  });
+}
+
+if (require.main === module) {
+  const port = Number(process.env.PORT || 3000);
+  createApp().listen(port, "127.0.0.1", () => {
+    console.log(`Server listening on http://127.0.0.1:${port}`);
+  });
+}
+
+module.exports = { createApp };
